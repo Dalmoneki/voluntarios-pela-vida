@@ -3,29 +3,29 @@ import { Users, Heart, ArrowLeftRight, Bell, Sparkles, Sun } from 'lucide-react'
 
 export default function Home() {
   return (
-    <div className="p-8 max-w-[1200px] mx-auto">
+    <div className="p-8 max-w-[1200px] mx-auto space-y-8">
       {/* Header with sparkle */}
-      <div className="flex items-center gap-2 mb-8">
+      <div className="flex items-center gap-2">
         <h1 className="text-2xl font-bold text-gray-800">Painel de Controle</h1>
         <Sparkles className="h-6 w-6 text-yellow-400" />
       </div>
 
       {/* Financial Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <Card className="bg-white/90 backdrop-blur-sm shadow-sm">
-          <CardContent>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card className="bg-white shadow-md">
+          <CardContent className="pt-6">
             <h3 className="text-sm font-medium text-green-600 mb-2">Total Entradas</h3>
             <p className="text-2xl font-bold">R$ 5.000,00</p>
           </CardContent>
         </Card>
-        <Card className="bg-white/90 backdrop-blur-sm shadow-sm">
-          <CardContent>
+        <Card className="bg-white shadow-md">
+          <CardContent className="pt-6">
             <h3 className="text-sm font-medium text-red-600 mb-2">Total Saídas</h3>
             <p className="text-2xl font-bold">R$ 3.000,00</p>
           </CardContent>
         </Card>
-        <Card className="bg-white/90 backdrop-blur-sm shadow-sm">
-          <CardContent>
+        <Card className="bg-white shadow-md">
+          <CardContent className="pt-6">
             <h3 className="text-sm font-medium text-blue-600 mb-2">Saldo Atual</h3>
             <p className="text-2xl font-bold">R$ 2.000,00</p>
           </CardContent>
@@ -33,33 +33,33 @@ export default function Home() {
       </div>
 
       {/* Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <Card className="bg-blue-50/80 border-none backdrop-blur-sm">
-          <CardContent className="flex flex-col">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="bg-blue-50 border-none">
+          <CardContent className="pt-6 flex flex-col">
             <Users className="h-6 w-6 text-blue-600 mb-2" />
             <span className="text-3xl font-bold mb-1">0</span>
             <p className="text-sm text-blue-800">Pessoas cadastradas no sistema</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-pink-50/80 border-none backdrop-blur-sm">
-          <CardContent className="flex flex-col">
+        <Card className="bg-pink-50 border-none">
+          <CardContent className="pt-6 flex flex-col">
             <Heart className="h-6 w-6 text-pink-600 mb-2" />
             <span className="text-3xl font-bold mb-1">0</span>
             <p className="text-sm text-pink-800">Crianças com necessidades especiais</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-green-50/80 border-none backdrop-blur-sm">
-          <CardContent className="flex flex-col">
+        <Card className="bg-green-50 border-none">
+          <CardContent className="pt-6 flex flex-col">
             <ArrowLeftRight className="h-6 w-6 text-green-600 mb-2" />
             <span className="text-3xl font-bold mb-1">0</span>
             <p className="text-sm text-green-800">Total de movimentações no mês</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-purple-50/80 border-none backdrop-blur-sm">
-          <CardContent className="flex flex-col">
+        <Card className="bg-purple-50 border-none">
+          <CardContent className="pt-6 flex flex-col">
             <Bell className="h-6 w-6 text-purple-600 mb-2" />
             <span className="text-3xl font-bold mb-1">0</span>
             <p className="text-sm text-purple-800">Alertas pendentes de ação</p>
@@ -68,7 +68,7 @@ export default function Home() {
       </div>
 
       {/* Welcome Section */}
-      <Card className="mb-8 bg-white/50 backdrop-blur-sm shadow-sm">
+      <Card className="bg-white/80 shadow-md">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl font-semibold text-blue-600">
             <Heart className="h-5 w-5" />
@@ -91,11 +91,11 @@ export default function Home() {
       </Card>
 
       {/* Bible Verse */}
-      <div className="text-center text-gray-500 italic relative">
+      <div className="text-center text-gray-500 italic relative py-4">
         <div className="absolute right-0 top-0">
           <Sun className="h-8 w-8 text-yellow-400" />
         </div>
-        <p className="mb-2">"Cada um contribua segundo tiver proposto no coração, não com tristeza ou por necessidade; porque Deus ama a quem dá com alegria" - 2 Coríntios 9:7</p>
+        <p className="mb-2">&ldquo;Cada um contribua segundo tiver proposto no coração, não com tristeza ou por necessidade; porque Deus ama a quem dá com alegria&rdquo; - 2 Coríntios 9:7</p>
         <p className="text-sm">Feito com amor por Luis Dannokael e david ❤️</p>
       </div>
     </div>
