@@ -1,7 +1,13 @@
+import { Metadata } from 'next'
 import { Card, CardContent } from "@/components/ui/card"
 import { Users, Heart, ArrowLeftRight, Bell, Sparkles, Sun } from 'lucide-react'
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: 'Painel de Controle - Voluntários pela Vida',
+  description: 'Sistema de gerenciamento do Projeto Voluntários pela Vida',
+}
+
+export default async function Page() {
   return (
     <div className="space-y-6 max-w-[1200px] mx-auto p-4">
       {/* Header with sparkle */}
