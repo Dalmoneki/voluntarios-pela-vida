@@ -1,23 +1,22 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Voluntários pela Vida',
-  description: 'Projeto de apoio à comunidade',
-  manifest: '/manifest.json',
-}
+  title: "Voluntários pela Vida",
+  description: "Projeto de apoio à comunidade",
+  manifest: "/manifest.json"
+};
 
 export default function RootLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
@@ -32,6 +31,5 @@ export default function RootLayout({
         </div>
       </body>
     </html>
-  )
+  );
 }
-

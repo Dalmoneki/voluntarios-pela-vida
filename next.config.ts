@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  output: "export",
+  images: {
+    unoptimized: true
+  },
+  assetPrefix: "/voluntarios-pela-vida/",
+  basePath: "/voluntarios-pela-vida",
   images: {
     remotePatterns: [
       {
