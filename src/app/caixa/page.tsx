@@ -1,165 +1,133 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Pencil, Trash2 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
+import { useState, useEffect } from 'react'
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Pencil, Trash2 } from 'lucide-react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface Lancamento {
-  id: number;
-  data: string;
-  documento: string;
-  historico: string;
-  entrada?: number;
-  saida?: number;
+  id: number
+  data: string
+  documento: string
+  historico: string
+  entrada?: number
+  saida?: number
 }
 
-export default function MovimentoCaixa() {
-  const [documento, setDocumento] = useState("");
-  const [historico, setHistorico] = useState("");
-  const [valor, setValor] = useState("");
-  const [tipo, setTipo] = useState<"entrada" | "saida">("entrada");
-  const [lancamentos, setLancamentos] = useState<Lancamento[]>([]);
-  const [mesSelecionado, setMesSelecionado] = useState(
-    new Date().toISOString().slice(0, 7)
-  );
-  const [saldoAnterior, setSaldoAnterior] = useState("0,00");
-  const [lancamentoEditando, setLancamentoEditando] =
-    useState<Lancamento | null>(null);
-  const [erro, setErro] = useState<string | null>(null);
+export default function CaixaPage() {
+  const [documento, setDocumento] = useState('')
+  const [historico, setHistorico] = useState('')
+  const [valor, setValor] = useState('')
+  const [tipo, setTipo] = useState<'entrada' | 'saida'>('entrada')
+  const [lancamentos, setLancamentos] = useState<Lancamento[]>([])
+  const [mesSelecionado, setMesSelecionado] = useState(new Date().toISOString().slice(0, 7))
+  const [saldoAnterior, setSaldoAnterior] = useState('0,00')
+  const [lancamentoEditando, setLancamentoEditando] = useState<Lancamento | null>(null)
+  const [erro, setErro] = useState<string | null>(null)
 
   useEffect(() => {
-    const savedLancamentos = localStorage.getItem("lancamentos");
-    const savedSaldoAnterior = localStorage.getItem("saldoAnterior");
-
+    const savedLancamentos = localStorage.getItem('lancamentos')
+    const savedSaldoAnterior = localStorage.getItem('saldoAnterior')
+    
     if (savedLancamentos) {
-      setLancamentos(JSON.parse(savedLancamentos));
+      setLancamentos(JSON.parse(savedLancamentos))
     }
     if (savedSaldoAnterior) {
-      setSaldoAnterior(savedSaldoAnterior);
+      setSaldoAnterior(savedSaldoAnterior)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    localStorage.setItem("lancamentos", JSON.stringify(lancamentos));
-    localStorage.setItem("saldoAnterior", saldoAnterior);
-  }, [lancamentos, saldoAnterior]);
+    localStorage.setItem('lancamentos', JSON.stringify(lancamentos))
+    localStorage.setItem('saldoAnterior', saldoAnterior)
+  }, [lancamentos, saldoAnterior])
 
   const validarFormulario = () => {
     if (!historico.trim()) {
-      setErro("O histórico é obrigatório.");
-      return false;
+      setErro('O histórico é obrigatório.')
+      return false
     }
-    if (!valor || isNaN(parseFloat(valor.replace(",", ".")))) {
-      setErro("O valor deve ser um número válido.");
-      return false;
+    if (!valor || isNaN(parseFloat(valor.replace(',', '.')))) {
+      setErro('O valor deve ser um número válido.')
+      return false
     }
-    setErro(null);
-    return true;
-  };
+    setErro(null)
+    return true
+  }
 
   const adicionarLancamento = () => {
-    if (!validarFormulario()) return;
+    if (!validarFormulario()) return
 
     const novoLancamento: Lancamento = {
       id: Date.now(),
       data: new Date().toISOString().slice(0, 10),
       documento: documento,
       historico: historico,
-      ...(tipo === "entrada"
-        ? { entrada: parseFloat(valor.replace(",", ".")) }
-        : { saida: parseFloat(valor.replace(",", ".")) })
-    };
-    setLancamentos([...lancamentos, novoLancamento]);
-    limparFormulario();
-  };
+      ...(tipo === 'entrada' 
+        ? { entrada: parseFloat(valor.replace(',', '.')) }
+        : { saida: parseFloat(valor.replace(',', '.')) }
+      )
+    }
+    setLancamentos([...lancamentos, novoLancamento])
+    limparFormulario()
+  }
 
   const editarLancamento = (lancamento: Lancamento) => {
-    setLancamentoEditando(lancamento);
-    setDocumento(lancamento.documento);
-    setHistorico(lancamento.historico);
-    setValor(
-      lancamento.entrada
-        ? lancamento.entrada.toString()
-        : lancamento.saida
-        ? lancamento.saida.toString()
-        : ""
-    );
-    setTipo(lancamento.entrada ? "entrada" : "saida");
-  };
+    setLancamentoEditando(lancamento)
+    setDocumento(lancamento.documento)
+    setHistorico(lancamento.historico)
+    setValor(lancamento.entrada ? lancamento.entrada.toString() : lancamento.saida ? lancamento.saida.toString() : '')
+    setTipo(lancamento.entrada ? 'entrada' : 'saida')
+  }
 
   const salvarEdicao = () => {
-    if (!validarFormulario()) return;
+    if (!validarFormulario()) return
 
     if (lancamentoEditando) {
-      const lancamentosAtualizados = lancamentos.map((l) =>
-        l.id === lancamentoEditando.id
-          ? {
-              ...l,
-              documento: documento,
-              historico: historico,
-              entrada:
-                tipo === "entrada"
-                  ? parseFloat(valor.replace(",", "."))
-                  : undefined,
-              saida:
-                tipo === "saida"
-                  ? parseFloat(valor.replace(",", "."))
-                  : undefined
-            }
-          : l
-      );
-      setLancamentos(lancamentosAtualizados);
-      setLancamentoEditando(null);
-      limparFormulario();
+      const lancamentosAtualizados = lancamentos.map(l => 
+        l.id === lancamentoEditando.id ? {
+          ...l,
+          documento: documento,
+          historico: historico,
+          entrada: tipo === 'entrada' ? parseFloat(valor.replace(',', '.')) : undefined,
+          saida: tipo === 'saida' ? parseFloat(valor.replace(',', '.')) : undefined
+        } : l
+      )
+      setLancamentos(lancamentosAtualizados)
+      setLancamentoEditando(null)
+      limparFormulario()
     }
-  };
+  }
 
   const removerLancamento = (id: number) => {
-    setLancamentos(lancamentos.filter((l) => l.id !== id));
-  };
+    setLancamentos(lancamentos.filter(l => l.id !== id))
+  }
 
   const limparFormulario = () => {
-    setDocumento("");
-    setHistorico("");
-    setValor("");
-    setTipo("entrada");
-    setErro(null);
-  };
+    setDocumento('')
+    setHistorico('')
+    setValor('')
+    setTipo('entrada')
+    setErro(null)
+  }
 
-  const lancamentosFiltrados = lancamentos.filter((lanc) =>
+  const lancamentosFiltrados = lancamentos.filter(lanc => 
     lanc.data.startsWith(mesSelecionado)
-  );
+  )
 
   const calcularTotais = () => {
-    return lancamentosFiltrados.reduce(
-      (acc, lanc) => ({
-        entradas: acc.entradas + (lanc.entrada || 0),
-        saidas: acc.saidas + (lanc.saida || 0)
-      }),
-      { entradas: 0, saidas: 0 }
-    );
-  };
+    return lancamentosFiltrados.reduce((acc, lanc) => ({
+      entradas: acc.entradas + (lanc.entrada || 0),
+      saidas: acc.saidas + (lanc.saida || 0)
+    }), { entradas: 0, saidas: 0 })
+  }
 
-  const { entradas, saidas } = calcularTotais();
-  const saldoAtualCalculado =
-    parseFloat(saldoAnterior.replace(",", ".")) + entradas - saidas;
+  const { entradas, saidas } = calcularTotais()
+  const saldoAtualCalculado = parseFloat(saldoAnterior.replace(',', '.')) + entradas - saidas
 
   return (
     <div className="container mx-auto p-4">
@@ -214,10 +182,7 @@ export default function MovimentoCaixa() {
                 onChange={(e) => setValor(e.target.value)}
                 placeholder="0,00"
               />
-              <Select
-                value={tipo}
-                onValueChange={(value: "entrada" | "saida") => setTipo(value)}
-              >
+              <Select value={tipo} onValueChange={(value: 'entrada' | 'saida') => setTipo(value)}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Tipo" />
                 </SelectTrigger>
@@ -236,7 +201,7 @@ export default function MovimentoCaixa() {
           onClick={lancamentoEditando ? salvarEdicao : adicionarLancamento}
           className="w-full mb-6"
         >
-          {lancamentoEditando ? "Salvar Edição" : "Adicionar Lançamento"}
+          {lancamentoEditando ? 'Salvar Edição' : 'Adicionar Lançamento'}
         </Button>
 
         <div className="overflow-x-auto">
@@ -254,27 +219,17 @@ export default function MovimentoCaixa() {
             <tbody>
               {lancamentosFiltrados.map((lancamento) => (
                 <tr key={lancamento.id}>
-                  <td className="border p-2">
-                    {new Date(lancamento.data).toLocaleDateString()}
-                  </td>
+                  <td className="border p-2">{new Date(lancamento.data).toLocaleDateString()}</td>
                   <td className="border p-2">{lancamento.documento}</td>
                   <td className="border p-2">{lancamento.historico}</td>
                   <td className="border p-2 text-right text-green-600">
-                    {lancamento.entrada
-                      ? `R$ ${lancamento.entrada.toFixed(2)}`
-                      : "-"}
+                    {lancamento.entrada ? `R$ ${lancamento.entrada.toFixed(2)}` : '-'}
                   </td>
                   <td className="border p-2 text-right text-red-600">
-                    {lancamento.saida
-                      ? `R$ ${lancamento.saida.toFixed(2)}`
-                      : "-"}
+                    {lancamento.saida ? `R$ ${lancamento.saida.toFixed(2)}` : '-'}
                   </td>
                   <td className="border p-2 text-center">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => editarLancamento(lancamento)}
-                    >
+                    <Button variant="ghost" size="sm" onClick={() => editarLancamento(lancamento)}>
                       <Pencil className="h-4 w-4" />
                     </Button>
                     <Dialog>
@@ -289,15 +244,8 @@ export default function MovimentoCaixa() {
                         </DialogHeader>
                         <p>Tem certeza que deseja excluir este lançamento?</p>
                         <div className="flex justify-end gap-2">
-                          <Button variant="outline" onClick={() => {}}>
-                            Cancelar
-                          </Button>
-                          <Button
-                            variant="destructive"
-                            onClick={() => removerLancamento(lancamento.id)}
-                          >
-                            Excluir
-                          </Button>
+                          <Button variant="outline" onClick={() => {}}>Cancelar</Button>
+                          <Button variant="destructive" onClick={() => removerLancamento(lancamento.id)}>Excluir</Button>
                         </div>
                       </DialogContent>
                     </Dialog>
@@ -332,11 +280,7 @@ export default function MovimentoCaixa() {
               </div>
               <div className="flex justify-between border-t pt-2">
                 <span className="font-bold">SALDO ATUAL:</span>
-                <span
-                  className={
-                    saldoAtualCalculado >= 0 ? "text-green-600" : "text-red-600"
-                  }
-                >
+                <span className={saldoAtualCalculado >= 0 ? 'text-green-600' : 'text-red-600'}>
                   R$ {saldoAtualCalculado.toFixed(2)}
                 </span>
               </div>
@@ -345,5 +289,6 @@ export default function MovimentoCaixa() {
         </div>
       </Card>
     </div>
-  );
+  )
 }
+
