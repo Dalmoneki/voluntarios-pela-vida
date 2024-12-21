@@ -9,6 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Voluntários pela Vida',
   description: 'Projeto de apoio à comunidade',
+  manifest: '/manifest.json',
 }
 
 export default function RootLayout({
@@ -16,6 +17,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
